@@ -1,8 +1,8 @@
-import Component from "../core/Component.js";
-import { $ } from "../utils/dom.js";
-import { navigate } from "../router.js";
+import Component from "../../core/Component.js";
+import { $ } from "../../utils/dom.js";
+import { navigate } from "../../router.js";
 
-class PostItem extends Component {
+class Post extends Component {
   init() {
     this.state = { post: this.props };
   }
@@ -38,4 +38,4 @@ class PostItem extends Component {
   }
 }
 
-export default PostItem;
+export default Post;

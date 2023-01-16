@@ -1,5 +1,5 @@
 import Component from "../../core/Component.js";
-import PostList from "../../components/PostList.js";
+import PostList from "../../components/Post/PostList.js";
 import { $ } from "../../utils/dom.js";
 
 class MainPage extends Component {

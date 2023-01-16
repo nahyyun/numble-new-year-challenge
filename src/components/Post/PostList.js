@@ -1,6 +1,6 @@
-import Component from "../core/Component.js";
-import PostItem from "./PostItem.js";
-import { $ } from "../utils/dom.js";
+import Component from "../../core/Component.js";
+import Post from "./Post.js";
+import { $ } from "../../utils/dom.js";
 
 class PostList extends Component {
   template() {
@@ -18,7 +18,7 @@ class PostList extends Component {
     this.setState({ posts: data.posts });
 
     this.state.posts.forEach(
-      (post) => new PostItem({ target: $(".post-list"), props: post })
+      (post) => new Post({ target: $(".post-list"), props: post })
     );
   }
 

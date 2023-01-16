@@ -56,11 +56,11 @@ const render = (path) => {
   const [matchedRoute, matchResult] = findMatchRoute(path);
 
   if (matchedRoute) {
-    const [, params] = getParams(matchResult) ?? [];
+    const params = getParams(matchResult) ?? null;
 
     return new matchedRoute.view({
       target: $("#app"),
-      props: params ? params : null,
+      props: { params },
     });
   }
 
