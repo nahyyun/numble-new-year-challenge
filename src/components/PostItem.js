@@ -1,17 +1,17 @@
 import Component from "../core/Component.js";
 import { $ } from "../utils/dom.js";
+import { navigate } from "../router.js";
 
 class PostItem extends Component {
   init() {
     this.state = { post: this.props };
-    console.log(this.state);
   }
 
   template() {
-    const { title, content } = this.state.post;
+    const { postId, title, content } = this.state.post;
     return `
-        <li class="post">
-            <div>  
+        <li data-id=${postId} class="post-${postId}">
+            <div>
                 <span>${title}</span>
             </div>
             <div>
@@ -27,7 +27,15 @@ class PostItem extends Component {
 
   async mounted() {}
 
-  event() {}
+  event() {
+    const { postId } = this.state.post;
+
+    const postElement = $(`.post-${postId}`);
+
+    postElement.addEventListener("click", (e) => {
+      navigate(`posts/${postId}`);
+    });
+  }
 }
 
 export default PostItem;

@@ -4,6 +4,7 @@ import PostEditPage from "./pages/PostEditPage/index.js";
 import PostDetailPage from "./pages/PostDetailPage/index.js";
 import NotFoundPage from "./pages/NotFoundPage/index.js";
 import { $ } from "./utils/dom.js";
+import { getRouteRegexp } from "./utils/regexp.js";
 
 const routes = [
   {
@@ -19,7 +20,7 @@ const routes = [
     view: PostEditPage,
   },
   {
-    path: "/:postId",
+    path: "/posts/:postId",
     view: PostDetailPage,
   },
   {
@@ -28,15 +29,39 @@ const routes = [
   },
 ];
 
-const findMatchRoute = (path) => {
-  return routes.find((route) => route.path === path);
+const findMatchRoute = (UrlPath) => {
+  const findResult = [];
+
+  routes.forEach((route) => {
+    const routeRegexp = getRouteRegexp(route.path);
+    const matchResult = UrlPath.match(routeRegexp);
+
+    if (matchResult) {
+      findResult.push(route, matchResult);
+    }
+  });
+
+  return findResult;
+};
+
+const getParams = (matchResult) => {
+  const [, params] = matchResult;
+
+  if (typeof params === "string") {
+    return params;
+  }
 };
 
 const render = (path) => {
-  const match = findMatchRoute(path);
+  const [matchedRoute, matchResult] = findMatchRoute(path);
 
-  if (match) {
-    return new match.view({ target: $("#app") });
+  if (matchedRoute) {
+    const [, params] = getParams(matchResult) ?? [];
+
+    return new matchedRoute.view({
+      target: $("#app"),
+      props: params ? params : null,
+    });
   }
 
   const notFoundRoute = routes[routes.length - 1];
@@ -45,7 +70,7 @@ const render = (path) => {
 
 export const navigate = (path) => {
   history.pushState(null, null, `${path}`);
-  render(path);
+  render(location.pathname);
 };
 
 window.onpopstate = () => {
