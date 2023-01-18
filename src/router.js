@@ -20,7 +20,7 @@ const routes = [
     view: PostEditPage,
   },
   {
-    path: "/posts/:postId",
+    path: "/post/:postId",
     view: PostDetailPage,
   },
   {
@@ -68,8 +68,8 @@ const render = (path) => {
   new notFoundRoute.view({ target: $("#app") });
 };
 
-export const navigate = (path) => {
-  history.pushState(null, null, `${path}`);
+export const navigate = (path, state) => {
+  history.pushState(state, null, `${path}`);
   render(location.pathname);
 };
 

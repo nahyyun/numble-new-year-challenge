@@ -18,6 +18,7 @@ export default class Component {
 
   render() {
     this.$target.innerHTML = this.template();
+    this.event();
     this.mounted();
   }
 

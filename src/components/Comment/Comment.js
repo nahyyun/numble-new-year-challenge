@@ -11,7 +11,7 @@ class Comment extends Component {
 
     const { commentId, content } = this.state.comment;
     return `
-        <li data-id=${commentId} class="post-${commentId}">
+        <li data-id="${commentId}" class="post-${commentId}">
           <span>${content}</span>
           <button class="btn-delete-comment">삭제</button>
         </li>

@@ -10,7 +10,7 @@ class Post extends Component {
   template() {
     const { postId, title, content } = this.state.post;
     return `
-        <li data-id=${postId} class="post-${postId}">
+        <li data-id="${postId}" class="post-${postId}">
             <div>
                 <span>${title}</span>
             </div>
@@ -22,7 +22,7 @@ class Post extends Component {
   }
 
   render() {
-    this.$target.insertAdjacentHTML("afterend", this.template());
+    this.$target.insertAdjacentHTML("afterbegin", this.template());
   }
 
   async mounted() {}
@@ -32,8 +32,8 @@ class Post extends Component {
 
     const postElement = $(`.post-${postId}`);
 
-    postElement.addEventListener("click", (e) => {
-      navigate(`posts/${postId}`);
+    postElement.addEventListener("click", () => {
+      navigate(`post/${postId}`);
     });
   }
 }
