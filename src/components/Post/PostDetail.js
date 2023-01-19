@@ -39,6 +39,7 @@ class PostDetail extends Component {
         type: "button",
         text: "수정",
         className: "btn-post-edit",
+        position: "beforeend",
         handleClick: () => {
           navigate(`/edit/${postId}`, {
             detailInfo: this.state.detailInfo,
@@ -52,6 +53,7 @@ class PostDetail extends Component {
         type: "button",
         text: "삭제",
         className: "btn-post-delete",
+        position: "beforeend",
         handleClick: () => {
           navigate("/");
         },

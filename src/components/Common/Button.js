@@ -3,20 +3,24 @@ import { $ } from "../../utils/dom.js";
 
 class Button extends Component {
   template() {
-    const { className, text } = this.props;
+    const { type, className, text } = this.props;
 
-    return `<button class="${className}">${text}</button>`;
+    return `<button 
+              type="${type}" 
+              class="${className}" 
+            >${text}
+            </button>`;
   }
 
   render() {
-    this.$target.insertAdjacentHTML("beforeend", this.template());
+    this.$target.insertAdjacentHTML(this.props.position, this.template());
   }
 
   event() {
-    this.$target.addEventListener("click", (e) => {
-      if (this.props.className !== e.target.className) return;
-
-      this.props.handleClick();
+    $(`.${this.props.className}`).addEventListener("click", () => {
+      if (this.props.handleClick) {
+        this.props.handleClick();
+      }
     });
   }
 }
