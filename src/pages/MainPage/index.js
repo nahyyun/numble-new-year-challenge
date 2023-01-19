@@ -17,7 +17,7 @@ class MainPage extends Component {
       target: $(".btn-add-post-wrapper"),
       props: {
         position: "afterbegin",
-        type: "click",
+        type: "button",
         className: "btn-add-post",
         text: "게시글 등록하기",
         handleClick: this.moveToAddPage,

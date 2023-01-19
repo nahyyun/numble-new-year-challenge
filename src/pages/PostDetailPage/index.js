@@ -1,6 +1,7 @@
 import Component from "../../core/Component.js";
 import PostDetail from "../../components/Post/PostDetail.js";
 import CommentList from "../../components/Comment/CommentList.js";
+import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
 class PostDetailPage extends Component {
@@ -12,29 +13,33 @@ class PostDetailPage extends Component {
   }
 
   async mounted() {
-    if (this.state) return;
-
-    const response = await fetch(
-      `http://43.201.103.199/post/${this.props.params}`,
-      {
-        method: "GET",
-      }
-    );
-
-    const {
-      data: { post, comments },
-    } = await response.json();
-    this.setState({ post, comments });
+    const { post, comments } = await this.getPostDetail();
 
     new PostDetail({
       target: $(".post-detail-container"),
       props: { detailInfo: post },
     });
 
-    new CommentList({ target: $(".comments"), props: { comments } });
+    new CommentList({
+      target: $(".comments"),
+      props: { postId: post.postId, comments },
+    });
   }
 
-  event() {}
+  async getPostDetail() {
+    try {
+      const {
+        success,
+        data: { post, comments },
+      } = await fetchAPI.GET(`post/${this.props.params}`);
+
+      if (success) {
+        return { post, comments };
+      }
+    } catch (error) {
+      console.dir(error);
+    }
+  }
 }
 
 export default PostDetailPage;

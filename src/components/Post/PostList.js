@@ -1,5 +1,6 @@
 import Component from "../../core/Component.js";
 import Post from "./Post.js";
+import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
 class PostList extends Component {
@@ -7,22 +8,27 @@ class PostList extends Component {
     return `<ul class="post-list"></ul>`;
   }
 
-  async mounted() {
+  mounted() {
     if (this.state) return;
 
-    const response = await fetch("http://43.201.103.199/posts", {
-      method: "GET",
-    });
-
-    const { data } = await response.json();
-    this.setState({ posts: data.posts });
-
-    this.state.posts.forEach(
-      (post) => new Post({ target: $(".post-list"), props: post })
-    );
+    this.getPostList();
   }
 
-  event() {}
+  async getPostList() {
+    try {
+      const { code, data } = await fetchAPI.GET("posts");
+
+      if (code === 200) {
+        this.setState({ posts: data.posts });
+
+        this.state.posts.forEach(
+          (post) => new Post({ target: $(".post-list"), props: post })
+        );
+      }
+    } catch (error) {
+      console.dir(error);
+    }
+  }
 }
 
 export default PostList;

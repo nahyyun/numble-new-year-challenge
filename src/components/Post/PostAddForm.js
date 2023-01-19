@@ -3,6 +3,7 @@ import Button from "../Common/Button.js";
 import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
 import { UNSPLASH_API_KEY } from "../../../apiKey.js";
+import fetchAPI from "../../api/index.js";
 
 class PostAddForm extends Component {
   template() {
@@ -32,22 +33,24 @@ class PostAddForm extends Component {
   }
 
   mounted() {
+    const postAddForm = document.forms.postAddForm;
+
     new Button({
       target: $(".post-add-form-container"),
       props: {
         position: "afterbegin",
-        type: "click",
+        type: "button",
         className: "btn-upload-image",
         text: "랜덤 이미지 추가하기",
-        handleClick: () => this.getRandomImage(),
+        handleClick: () => this.getRandomImage(postAddForm),
       },
     });
 
     new Button({
-      target: document.forms.postAddForm,
+      target: postAddForm,
       props: {
         position: "beforeend",
-        type: "click",
+        type: "submit",
         className: "btn-add-post",
         text: "작성 완료",
       },
@@ -55,36 +58,32 @@ class PostAddForm extends Component {
   }
 
   event() {
-    const formElement = document.forms.postAddForm;
+    const postAddForm = document.forms.postAddForm;
 
-    formElement.addEventListener("submit", async (e) => {
+    postAddForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      try {
-        const response = await fetch(`http://43.201.103.199/post`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            image: formElement.image.src,
-            title: formElement.formTitle.value,
-            content: formElement.formContent.value,
-          }),
-        });
-
-        const { code: statusCode } = await response.json();
-
-        if (statusCode === 200 || statusCode === 201) {
-          navigate(`/`);
-        }
-      } catch (error) {
-        console.dir(error);
-      }
+      this.addPost(postAddForm);
     });
   }
 
-  async getRandomImage() {
+  async addPost(formElement) {
+    try {
+      const { code } = await fetchAPI.POST(`post`, {
+        image: formElement.image.src,
+        title: formElement.formTitle.value,
+        content: formElement.formContent.value,
+      });
+
+      if (code === 200 || code === 201) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.dir(error);
+    }
+  }
+
+  async getRandomImage(formElement) {
     const response = await fetch(
       `https://api.unsplash.com/photos/random?client_id=${UNSPLASH_API_KEY}`,
       { method: "GET" }
@@ -93,7 +92,6 @@ class PostAddForm extends Component {
       urls: { regular },
     } = await response.json();
 
-    const formElement = document.forms.postAddForm;
     formElement.image.src = regular;
 
     $(".btn-upload-image").disabled = true;

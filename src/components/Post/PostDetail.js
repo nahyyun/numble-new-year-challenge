@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import Button from "../Common/Button.js";
 import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
+import fetchAPI from "../../api/index.js";
 
 class PostDetail extends Component {
   init() {
@@ -31,37 +32,44 @@ class PostDetail extends Component {
   }
 
   mounted() {
-    const { postId, title, content, image } = this.state.detailInfo;
+    const { postId } = this.state.detailInfo;
 
     new Button({
       target: $(".btns-post-detail"),
       props: {
-        type: "button",
-        text: "수정",
-        className: "btn-post-edit",
         position: "beforeend",
-        handleClick: () => {
-          navigate(`/edit/${postId}`, {
-            detailInfo: this.state.detailInfo,
-          });
-        },
+        type: "button",
+        className: "btn-post-edit",
+        text: "수정",
+        handleClick: () => this.goToEditPage(postId),
       },
     });
+
     new Button({
       target: $(".btns-post-detail"),
       props: {
-        type: "button",
-        text: "삭제",
-        className: "btn-post-delete",
         position: "beforeend",
-        handleClick: () => {
-          navigate("/");
-        },
+        type: "button",
+        className: "btn-post-delete",
+        text: "삭제",
+        handleClick: () => this.deletePost(postId),
       },
     });
   }
 
-  event() {}
+  goToEditPage(postId) {
+    navigate(`/edit/${postId}`, {
+      detailInfo: this.state.detailInfo,
+    });
+  }
+
+  async deletePost(postId) {
+    const { code } = await fetchAPI.DELETE(`post/${postId}`);
+
+    if (code === 200) {
+      navigate("/");
+    }
+  }
 }
 
 export default PostDetail;

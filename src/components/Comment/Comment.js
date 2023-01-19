@@ -1,25 +1,36 @@
 import Component from "../../core/Component.js";
+import Button from "../Common/Button.js";
 import { $ } from "../../utils/dom.js";
 
 class Comment extends Component {
-  init() {
-    this.state = { comment: this.props.comment };
-  }
-
   template() {
-    if (!this.state.comment) return "";
+    const { commentId, content } = this.props.comment;
 
-    const { commentId, content } = this.state.comment;
     return `
-        <li data-id="${commentId}" class="post-${commentId}">
+        <li data-id="${commentId}" class="comment-${commentId}">
           <span>${content}</span>
-          <button class="btn-delete-comment">삭제</button>
         </li>
      `;
   }
 
   render() {
-    this.$target.insertAdjacentHTML("afterend", this.template());
+    this.$target.insertAdjacentHTML("beforeend", this.template());
+    this.mounted();
+  }
+
+  mounted() {
+    const { commentId } = this.props.comment;
+
+    new Button({
+      target: $(`.comment-${commentId}`),
+      props: {
+        position: "beforeend",
+        type: "button",
+        className: `btn-comment-delete-${commentId}`,
+        text: "삭제",
+        handleClick: () => this.props.deleteComment(commentId),
+      },
+    });
   }
 }
 

@@ -1,30 +1,36 @@
 import Component from "../../core/Component.js";
-import PostForm from "../../components/Post/PostForm.js";
+import PostEditForm from "../../components/Post/PostEditForm.js";
+import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
 class PostEditPage extends Component {
   template() {
     return `<main>
-              <section class="post-edit-form"></section>
+              <section class="post-edit-form-container"></section>
            </main>`;
   }
 
   async mounted() {
-    if (this.state) return;
-
     const postId = location.pathname.split("/").pop();
 
-    const response = await fetch(`http://43.201.103.199/post/${postId}`, {
-      method: "GET",
-    });
+    const post = await this.getPostDetail(postId);
 
-    const { data } = await response.json();
-    this.setState({ post: data.post });
-
-    new PostForm({
-      target: $(".post-edit-form"),
-      props: { post: this.state.post },
+    new PostEditForm({
+      target: $(".post-edit-form-container"),
+      props: { post },
     });
+  }
+
+  async getPostDetail(postId) {
+    try {
+      const { success, data } = await fetchAPI.GET(`post/${postId}`);
+
+      if (success) {
+        return data.post;
+      }
+    } catch (error) {
+      console.dir(error);
+    }
   }
 }
 
