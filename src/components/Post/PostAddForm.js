@@ -2,7 +2,6 @@ import Component from "../../core/Component.js";
 import Button from "../Common/Button.js";
 import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
-import { UNSPLASH_API_KEY } from "../../../apiKey.js";
 import fetchAPI from "../../api/index.js";
 
 class PostAddForm extends Component {
