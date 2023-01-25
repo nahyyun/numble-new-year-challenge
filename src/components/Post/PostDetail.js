@@ -13,7 +13,7 @@ class PostDetail extends Component {
     if (!this.state) return;
 
     const { title, content, image, updatedAt } = this.state.detailInfo;
-    const [updateDate] = updatedAt.split("T");
+    const [updateDate] = updatedAt?.split("T");
 
     return `
         <div class="post-image">

@@ -33,7 +33,7 @@ class Post extends Component {
     const postElement = $(`.post-${postId}`);
 
     postElement.addEventListener("click", () => {
-      navigate(`post/${postId}`);
+      navigate(`/post/${postId}`);
     });
   }
 }

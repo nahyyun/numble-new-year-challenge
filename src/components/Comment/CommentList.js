@@ -24,7 +24,7 @@ class CommentList extends Component {
         })
     );
     new CommentInput({
-      target: $(".comments"),
+      target: this.$target,
       props: {
         postId: this.state.postId,
         addComment: (formElement) => this.addComment(formElement),

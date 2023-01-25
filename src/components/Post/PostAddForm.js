@@ -3,6 +3,7 @@ import Button from "../Common/Button.js";
 import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
 import fetchAPI from "../../api/index.js";
+import { UNSPLASH_API_KEY } from "../../../apiKey.js";
 
 class PostAddForm extends Component {
   template() {

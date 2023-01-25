@@ -1,4 +1,5 @@
 import Component from "../../core/Component.js";
+import Header from "../../components/Common/Header.js";
 import PostDetail from "../../components/Post/PostDetail.js";
 import CommentList from "../../components/Comment/CommentList.js";
 import fetchAPI from "../../api/index.js";
@@ -7,6 +8,7 @@ import { $ } from "../../utils/dom.js";
 class PostDetailPage extends Component {
   template() {
     return `<main>
+              <nav id="navbar-wrapperr"></nav>
               <section class="post-detail-container"></section>
               <section class="comments"></section>
             </main>`;
@@ -14,6 +16,7 @@ class PostDetailPage extends Component {
 
   async mounted() {
     const { post, comments } = await this.getPostDetail();
+    new Header({ target: $("#navbar-wrapperr"), props: { isMain: false } });
 
     new PostDetail({
       target: $(".post-detail-container"),
@@ -22,7 +25,7 @@ class PostDetailPage extends Component {
 
     new CommentList({
       target: $(".comments"),
-      props: { postId: post.postId, comments },
+      props: { postId: 189, comments },
     });
   }
 
