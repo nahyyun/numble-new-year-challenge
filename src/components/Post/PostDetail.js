@@ -55,9 +55,7 @@ class PostDetail extends Component {
   }
 
   goToEditPage(postId) {
-    navigate(`/edit/${postId}`, {
-      detailInfo: this.props.detailInfo,
-    });
+    navigate(`/edit/${postId}`, this.props.detailInfo);
   }
 
   async deletePost(postId) {

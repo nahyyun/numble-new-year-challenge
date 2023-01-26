@@ -6,7 +6,8 @@ import { $ } from "../../utils/dom.js";
 
 class PostEditPage extends Component {
   init() {
-    this.state = { post: {} };
+    const post = history.state ?? {};
+    this.state = { post };
   }
 
   template() {
@@ -28,8 +29,10 @@ class PostEditPage extends Component {
   }
 
   mounted() {
-    const postId = location.pathname.split("/").pop();
-    this.getPostDetail(postId);
+    if (!this.state.post.postId) {
+      const postId = location.pathname.split("/").pop();
+      this.getPostDetail(postId);
+    }
   }
 
   async getPostDetail(postId) {
