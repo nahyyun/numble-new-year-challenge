@@ -6,17 +6,26 @@ import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
 class PostDetailPage extends Component {
+  init() {
+    this.state = { post: {}, comments: [], isLoading: false, error: false };
+  }
+
   template() {
     return `<main>
-              <nav id="navbar-wrapperr"></nav>
+              <nav id="navbar-wrapper"></nav>
               <section class="post-detail-container"></section>
               <section class="comments"></section>
             </main>`;
   }
 
-  async mounted() {
-    const { post, comments } = await this.getPostDetail();
-    new Header({ target: $("#navbar-wrapperr"), props: { isMain: false } });
+  render() {
+    if (this.state.isLoading) return;
+
+    this.$target.innerHTML = this.template();
+
+    const { post, comments } = this.state;
+
+    new Header({ target: $("#navbar-wrapper"), props: { isMain: false } });
 
     new PostDetail({
       target: $(".post-detail-container"),
@@ -25,21 +34,28 @@ class PostDetailPage extends Component {
 
     new CommentList({
       target: $(".comments"),
-      props: { postId: 189, comments },
+      props: { postId: this.props.params, comments },
     });
   }
 
+  mounted() {
+    this.getPostDetail();
+  }
+
   async getPostDetail() {
+    const postId = this.props.params;
     try {
+      this.setState({ ...this.state, isLoading: true });
       const {
         success,
         data: { post, comments },
-      } = await fetchAPI.GET(`post/${this.props.params}`);
+      } = await fetchAPI.GET(`post/${postId}`);
 
       if (success) {
-        return { post, comments };
+        this.setState({ ...this.state, isLoading: false, post, comments });
       }
     } catch (error) {
+      this.setState({ ...this.state, isLoading: false, error: error.message });
       console.dir(error);
     }
   }

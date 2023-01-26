@@ -68,7 +68,7 @@ const render = (path) => {
   new notFoundRoute.view({ target: $("#app") });
 };
 
-export const navigate = (path, state = path + 1) => {
+export const navigate = (path, state) => {
   history.pushState(state, null, `${path}`);
   render(path);
 };

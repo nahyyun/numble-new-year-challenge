@@ -5,6 +5,10 @@ import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
 class PostEditPage extends Component {
+  init() {
+    this.state = { post: {} };
+  }
+
   template() {
     return `<main>
               <nav id="navbar-wrapper"></nav>
@@ -12,17 +16,20 @@ class PostEditPage extends Component {
            </main>`;
   }
 
-  async mounted() {
+  render() {
+    this.$target.innerHTML = this.template();
+
     new Header({ target: $("#navbar-wrapper"), props: { isMain: false } });
-
-    const postId = location.pathname.split("/").pop();
-
-    const post = await this.getPostDetail(postId);
 
     new PostEditForm({
       target: $(".post-edit-form-container"),
-      props: { post },
+      props: { post: this.state.post },
     });
+  }
+
+  mounted() {
+    const postId = location.pathname.split("/").pop();
+    this.getPostDetail(postId);
   }
 
   async getPostDetail(postId) {
@@ -30,7 +37,7 @@ class PostEditPage extends Component {
       const { success, data } = await fetchAPI.GET(`post/${postId}`);
 
       if (success) {
-        return data.post;
+        this.setState({ post: data.post });
       }
     } catch (error) {
       console.dir(error);

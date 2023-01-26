@@ -3,12 +3,9 @@ import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
 
 class Post extends Component {
-  init() {
-    this.state = { post: this.props };
-  }
-
   template() {
-    const { postId, title, content } = this.state.post;
+    const { postId, title, content } = this.props.post;
+
     return `
         <li data-id="${postId}" class="post-${postId}">
             <div>
@@ -25,10 +22,8 @@ class Post extends Component {
     this.$target.insertAdjacentHTML("afterbegin", this.template());
   }
 
-  async mounted() {}
-
   event() {
-    const { postId } = this.state.post;
+    const { postId } = this.props.post;
 
     const postElement = $(`.post-${postId}`);
 

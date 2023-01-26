@@ -5,7 +5,7 @@ import fetchAPI from "../../api/index.js";
 
 class PostEditForm extends Component {
   template() {
-    const { title, content } = this.props.post;
+    const { title = "", content = "" } = this.props.post;
 
     return `
         <form id="postEditForm">
@@ -25,10 +25,7 @@ class PostEditForm extends Component {
 
   render() {
     this.$target.insertAdjacentHTML("afterbegin", this.template());
-    this.mounted();
-  }
 
-  mounted() {
     new Button({
       target: document.forms.postEditForm,
       props: {

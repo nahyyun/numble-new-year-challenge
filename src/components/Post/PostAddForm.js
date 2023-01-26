@@ -29,10 +29,7 @@ class PostAddForm extends Component {
 
   render() {
     this.$target.insertAdjacentHTML("afterbegin", this.template());
-    this.mounted();
-  }
 
-  mounted() {
     const postAddForm = document.forms.postAddForm;
 
     new Button({
@@ -60,7 +57,7 @@ class PostAddForm extends Component {
   event() {
     const postAddForm = document.forms.postAddForm;
 
-    postAddForm.addEventListener("submit", async (e) => {
+    postAddForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
       this.addPost(postAddForm);

@@ -15,10 +15,7 @@ class Comment extends Component {
 
   render() {
     this.$target.insertAdjacentHTML("beforeend", this.template());
-    this.mounted();
-  }
 
-  mounted() {
     const { commentId } = this.props.comment;
 
     new Button({

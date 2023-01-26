@@ -5,15 +5,15 @@ import { navigate } from "../../router.js";
 import fetchAPI from "../../api/index.js";
 
 class PostDetail extends Component {
-  init() {
-    this.state = { detailInfo: this.props.detailInfo };
-  }
-
   template() {
-    if (!this.state) return;
+    const {
+      title = "",
+      content = "",
+      image = "",
+      updatedAt = "",
+    } = this.props.detailInfo;
 
-    const { title, content, image, updatedAt } = this.state.detailInfo;
-    const [updateDate] = updatedAt?.split("T");
+    const [updateDate] = updatedAt.split("T");
 
     return `
         <div class="post-image">
@@ -28,11 +28,8 @@ class PostDetail extends Component {
 
   render() {
     this.$target.insertAdjacentHTML("afterbegin", this.template());
-    this.mounted();
-  }
 
-  mounted() {
-    const { postId } = this.state.detailInfo;
+    const { postId } = this.props.detailInfo;
 
     new Button({
       target: $(".btns-post-detail"),
@@ -59,7 +56,7 @@ class PostDetail extends Component {
 
   goToEditPage(postId) {
     navigate(`/edit/${postId}`, {
-      detailInfo: this.state.detailInfo,
+      detailInfo: this.props.detailInfo,
     });
   }
 

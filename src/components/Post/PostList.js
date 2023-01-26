@@ -4,28 +4,39 @@ import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
 class PostList extends Component {
+  init() {
+    this.state = { isLoading: false, posts: [], error: false };
+  }
+
   template() {
     return `<ul class="post-list"></ul>`;
   }
 
-  mounted() {
-    if (this.state) return;
+  render() {
+    if (this.state.isLoading || this.state.error) return;
 
+    this.$target.innerHTML = this.template();
+
+    this.state.posts.forEach(
+      (post) => new Post({ target: $(".post-list"), props: { post } })
+    );
+  }
+
+  mounted() {
     this.getPostList();
   }
 
   async getPostList() {
     try {
+      this.setState({ ...this.state, isLoading: true });
+
       const { code, data } = await fetchAPI.GET("posts");
 
       if (code === 200) {
-        this.setState({ posts: data.posts });
-
-        this.state.posts.forEach(
-          (post) => new Post({ target: $(".post-list"), props: post })
-        );
+        this.setState({ ...this.state, posts: data.posts, isLoading: false });
       }
     } catch (error) {
+      this.setState({ ...this.state, isLoading: false, error: error.message });
       console.dir(error);
     }
   }

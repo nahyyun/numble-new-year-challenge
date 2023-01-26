@@ -15,7 +15,9 @@ class CommentList extends Component {
     `;
   }
 
-  mounted() {
+  render() {
+    this.$target.innerHTML = this.template();
+
     this.state.comments.forEach(
       (comment) =>
         new Comment({
@@ -23,6 +25,7 @@ class CommentList extends Component {
           props: { comment, deleteComment: (id) => this.deleteComment(id) },
         })
     );
+
     new CommentInput({
       target: this.$target,
       props: {
@@ -42,7 +45,10 @@ class CommentList extends Component {
       );
 
       if (code === 201) {
-        this.setState({ comments: [...this.state.comments, data] });
+        this.setState({
+          ...this.state,
+          comments: [...this.state.comments, data],
+        });
       }
     } catch (error) {
       console.dir(error);
@@ -54,6 +60,7 @@ class CommentList extends Component {
 
     if (code === 200) {
       this.setState({
+        ...this.state,
         comments: this.state.comments.filter(
           (comment) => comment.commentId !== id
         ),

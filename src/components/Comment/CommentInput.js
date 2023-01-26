@@ -12,10 +12,7 @@ class CommentInput extends Component {
 
   render() {
     this.$target.insertAdjacentHTML("beforeend", this.template());
-    this.mounted();
-  }
 
-  mounted() {
     const addCommentForm = document.forms.addCommentForm;
 
     new Button({
@@ -32,7 +29,7 @@ class CommentInput extends Component {
   event() {
     const addCommentForm = document.forms.addCommentForm;
 
-    addCommentForm.addEventListener("submit", async (e) => {
+    addCommentForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
       const { addComment } = this.props;

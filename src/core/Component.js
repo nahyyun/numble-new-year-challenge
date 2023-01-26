@@ -5,6 +5,7 @@ export default class Component {
     this.props = props;
     this.init();
     this.render();
+    this.mounted();
     this.event();
   }
 
@@ -18,13 +19,18 @@ export default class Component {
 
   render() {
     this.$target.innerHTML = this.template();
-    this.mounted();
   }
 
   event() {}
 
-  setState(newData) {
-    this.state = { ...this.state, ...newData };
+  setState(newState) {
+    if (this.isSameState(newState)) return;
+
+    this.state = newState;
     this.render();
+  }
+
+  isSameState(newState) {
+    return JSON.stringify(this.state) === JSON.stringify(newState);
   }
 }

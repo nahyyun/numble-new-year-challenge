@@ -14,7 +14,9 @@ class MainPage extends Component {
       </main>`;
   }
 
-  mounted() {
+  render() {
+    this.$target.innerHTML = this.template();
+
     new Header({ target: $("#navbar-wrapper"), props: { isMain: true } });
 
     new Button({
