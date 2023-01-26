@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import Header from "../../components/Common/Header.js";
 import PostDetail from "../../components/Post/PostDetail.js";
 import CommentList from "../../components/Comment/CommentList.js";
+import Loading from "../../components/Common/Loading.js";
 import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
 
@@ -19,7 +20,9 @@ class PostDetailPage extends Component {
   }
 
   render() {
-    if (this.state.isLoading) return;
+    if (this.state.isLoading) {
+      return new Loading({ target: $(".post-detail-container") });
+    }
 
     this.$target.innerHTML = this.template();
 

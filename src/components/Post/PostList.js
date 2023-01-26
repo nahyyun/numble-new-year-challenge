@@ -2,6 +2,7 @@ import Component from "../../core/Component.js";
 import Post from "./Post.js";
 import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
+import Loading from "../Common/Loading.js";
 
 class PostList extends Component {
   init() {
@@ -13,7 +14,9 @@ class PostList extends Component {
   }
 
   render() {
-    if (this.state.isLoading || this.state.error) return;
+    if (this.state.isLoading) {
+      return new Loading({ target: this.$target });
+    }
 
     this.$target.innerHTML = this.template();
 
