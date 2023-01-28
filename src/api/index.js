@@ -15,7 +15,8 @@ const GET = async (url) => {
   if (response.ok) {
     return data;
   }
-  throw Error(data);
+  console.dir(data);
+  throw data;
 };
 
 const POST = async (url, bodyData) => {
@@ -28,7 +29,8 @@ const POST = async (url, bodyData) => {
   if (response.ok) {
     return data;
   }
-  throw Error(data);
+  console.dir(data);
+  throw data;
 };
 
 const PATCH = async (url, bodyData) => {
@@ -41,7 +43,8 @@ const PATCH = async (url, bodyData) => {
   if (response.ok) {
     return data;
   }
-  throw Error(data);
+  console.dir(data);
+  throw data;
 };
 
 const DELETE = async (url) => {
@@ -51,7 +54,8 @@ const DELETE = async (url) => {
   if (response.ok) {
     return data;
   }
-  throw Error(data);
+  console.dir(data);
+  throw data;
 };
 
 const fetchAPI = {

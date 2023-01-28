@@ -1,13 +1,15 @@
 import Component from "../../core/Component.js";
 import Header from "../../components/Common/Header.js";
 import PostEditForm from "../../components/Post/PostEditForm.js";
+import Loading from "../../components/Common/Loading.js";
 import fetchAPI from "../../api/index.js";
+import { navigate } from "../../router.js";
 import { $ } from "../../utils/dom.js";
 
 class PostEditPage extends Component {
   init() {
     const post = history.state ?? {};
-    this.state = { post };
+    this.state = { post, isLoading: false };
   }
 
   template() {
@@ -18,6 +20,10 @@ class PostEditPage extends Component {
   }
 
   render() {
+    if (this.state.isLoading) {
+      return new Loading({ target: this.$target });
+    }
+
     this.$target.innerHTML = this.template();
 
     new Header({ target: $("#navbar-wrapper"), props: { isMain: false } });
@@ -37,13 +43,16 @@ class PostEditPage extends Component {
 
   async getPostDetail(postId) {
     try {
+      this.setState({ ...this.state, isLoading: true });
+
       const { success, data } = await fetchAPI.GET(`post/${postId}`);
 
       if (success) {
-        this.setState({ post: data.post });
+        this.setState({ post: data.post, isLoading: false });
       }
     } catch (error) {
-      console.dir(error);
+      this.setState({ ...this.state, isLoading: false });
+      navigate("/notfound");
     }
   }
 }

@@ -1,8 +1,10 @@
 import Component from "../../core/Component.js";
 import Button from "../Common/Button.js";
+import Snackbar from "../Common/Snackbar.js";
 import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
 import fetchAPI from "../../api/index.js";
+import { SUCCESS_MESSAGE, ERROR_MESSAGE } from "../../utils/message.js";
 
 class PostDetail extends Component {
   template() {
@@ -62,8 +64,17 @@ class PostDetail extends Component {
     const { code } = await fetchAPI.DELETE(`post/${postId}`);
 
     if (code === 200) {
-      navigate("/");
+      new Snackbar({
+        target: $("#snackbar"),
+        props: { message: SUCCESS_MESSAGE["deletePost"] },
+      });
+      return navigate("/");
     }
+
+    new Snackbar({
+      target: $("#snackbar"),
+      props: { message: ERROR_MESSAGE["deletePost"] },
+    });
   }
 }
 

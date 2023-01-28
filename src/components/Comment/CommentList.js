@@ -35,12 +35,12 @@ class CommentList extends Component {
     });
   }
 
-  async addComment(formElement) {
+  async addComment(commentValue) {
     try {
       const { code, data } = await fetchAPI.POST(
         `comment/${this.state.postId}`,
         {
-          content: formElement.comment.value,
+          content: commentValue,
         }
       );
 

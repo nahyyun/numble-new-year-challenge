@@ -4,11 +4,12 @@ import PostDetail from "../../components/Post/PostDetail.js";
 import CommentList from "../../components/Comment/CommentList.js";
 import Loading from "../../components/Common/Loading.js";
 import fetchAPI from "../../api/index.js";
+import { navigate } from "../../router.js";
 import { $ } from "../../utils/dom.js";
 
 class PostDetailPage extends Component {
   init() {
-    this.state = { post: {}, comments: [], isLoading: false, error: false };
+    this.state = { post: {}, comments: [], isLoading: false };
   }
 
   template() {
@@ -47,6 +48,7 @@ class PostDetailPage extends Component {
 
   async getPostDetail() {
     const postId = this.props.params;
+
     try {
       this.setState({ ...this.state, isLoading: true });
       const {
@@ -58,8 +60,8 @@ class PostDetailPage extends Component {
         this.setState({ ...this.state, isLoading: false, post, comments });
       }
     } catch (error) {
-      this.setState({ ...this.state, isLoading: false, error: error.message });
-      console.dir(error);
+      this.setState({ ...this.state, isLoading: false });
+      navigate("/notfound");
     }
   }
 }

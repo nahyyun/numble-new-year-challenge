@@ -1,8 +1,10 @@
 import Component from "../../core/Component.js";
 import Post from "./Post.js";
+import Loading from "../Common/Loading.js";
+import Snackbar from "../Common/Snackbar.js";
 import fetchAPI from "../../api/index.js";
 import { $ } from "../../utils/dom.js";
-import Loading from "../Common/Loading.js";
+import { ERROR_MESSAGE } from "../../utils/message.js";
 
 class PostList extends Component {
   init() {
@@ -18,6 +20,13 @@ class PostList extends Component {
       return new Loading({ target: this.$target });
     }
 
+    if (this.state.error) {
+      return new Snackbar({
+        target: $("#snackbar"),
+        props: { message: ERROR_MESSAGE["loadPosts"] },
+      });
+    }
+
     this.$target.innerHTML = this.template();
 
     this.state.posts.forEach(
@@ -31,7 +40,7 @@ class PostList extends Component {
 
   async getPostList() {
     try {
-      this.setState({ ...this.state, isLoading: true });
+      this.setState({ ...this.state, isLoading: true, error: false });
 
       const { code, data } = await fetchAPI.GET("posts");
 
@@ -40,7 +49,6 @@ class PostList extends Component {
       }
     } catch (error) {
       this.setState({ ...this.state, isLoading: false, error: error.message });
-      console.dir(error);
     }
   }
 }

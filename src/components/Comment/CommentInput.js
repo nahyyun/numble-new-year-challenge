@@ -1,5 +1,6 @@
 import Component from "../../core/Component.js";
 import Button from "../Common/Button.js";
+import { isValidForm } from "../../utils/validForm.js";
 
 class CommentInput extends Component {
   template() {
@@ -32,8 +33,12 @@ class CommentInput extends Component {
     addCommentForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      const { addComment } = this.props;
-      addComment(addCommentForm);
+      const commentValue = addCommentForm.comment.value;
+
+      if (isValidForm({ comment: commentValue })) {
+        const { addComment } = this.props;
+        addComment(commentValue);
+      }
     });
   }
 }

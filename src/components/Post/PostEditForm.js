@@ -1,7 +1,11 @@
 import Component from "../../core/Component.js";
 import Button from "../Common/Button.js";
+import Snackbar from "../Common/Snackbar.js";
 import { navigate } from "../../router.js";
 import fetchAPI from "../../api/index.js";
+import { isValidForm } from "../../utils/validForm.js";
+import { $ } from "../../utils/dom.js";
+import { SUCCESS_MESSAGE, ERROR_MESSAGE } from "../../utils/message.js";
 
 class PostEditForm extends Component {
   template() {
@@ -43,22 +47,45 @@ class PostEditForm extends Component {
     postEditForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      this.editPost(postEditForm, this.props.post);
+      this.submitHandler(postEditForm);
     });
   }
 
-  async editPost(formElement, { postId, image }) {
+  submitHandler(postEditForm) {
+    const { formTitle, formContent } = postEditForm.elements;
+
+    const formValue = {
+      title: formTitle.value,
+      content: formContent.value,
+    };
+
+    if (isValidForm(formValue)) {
+      this.editPost({
+        post: this.props.post,
+        formValue,
+      });
+    }
+  }
+
+  async editPost({ post: { postId, image }, formValue: { title, content } }) {
     try {
       const { code } = await fetchAPI.PATCH(`post/${postId}`, {
         image,
-        title: formElement.formTitle.value,
-        content: formElement.formContent.value,
+        title,
+        content,
       });
       if (code === 200) {
+        new Snackbar({
+          target: $("#snackbar"),
+          props: { message: SUCCESS_MESSAGE["editPost"] },
+        });
         navigate(`/post/${postId}`);
       }
     } catch (error) {
-      console.dir(error);
+      new Snackbar({
+        target: $("#snackbar"),
+        props: { message: ERROR_MESSAGE["editPost"] },
+      });
     }
   }
 }
