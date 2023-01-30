@@ -5,7 +5,6 @@ import { SUCCESS_MESSAGE, ERROR_MESSAGE } from "../../utils/message.js";
 import { $ } from "../../utils/dom.js";
 import { navigate } from "../../router.js";
 import fetchAPI from "../../api/index.js";
-import { UNSPLASH_API_KEY } from "../../../apiKey.js";
 import { isValidForm } from "../../utils/validForm.js";
 
 class PostAddForm extends Component {
