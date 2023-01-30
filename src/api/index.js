@@ -1,4 +1,4 @@
-const BASE_URL = "http://43.201.103.199";
+const BASE_URL = "//43.201.103.199";
 
 const configWithBody = (method, body) => ({
   method,
