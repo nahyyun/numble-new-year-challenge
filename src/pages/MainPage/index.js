@@ -7,11 +7,11 @@ import { $ } from "../../utils/dom.js";
 
 class MainPage extends Component {
   template() {
-    return `<main>
-        <nav id="navbar-wrapper"></nav>
-        <div class="btn-add-post-wrapper"><div>
-        <section class="post-list-container"></section>
-      </main>`;
+    return `<main id="main-page">
+              <nav id="navbar-wrapper"></nav>
+              <div class="btn-add-post-wrapper"></div>
+              <section class="post-list-container"></section>
+            </main>`;
   }
 
   render() {

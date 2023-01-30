@@ -9,12 +9,7 @@ class Snackbar extends Component {
   render() {
     if (this.isChidrenCountMax()) return;
 
-    const _snackbar = createDom(
-      "div",
-      { class: "snackbar-wrapper" },
-      createDom("span", {}, this.props.message)
-    );
-
+    const _snackbar = createDom("div", createDom("span", this.props.message));
     this.snackbar = _snackbar;
 
     this.$target.append(this.snackbar);
@@ -22,7 +17,7 @@ class Snackbar extends Component {
 
   mounted() {
     this.snackbar &&
-      setTimeout(() => this.$target.removeChild(this.snackbar), 1800);
+      setTimeout(() => this.$target.removeChild(this.snackbar), 3000);
   }
 
   isChidrenCountMax() {

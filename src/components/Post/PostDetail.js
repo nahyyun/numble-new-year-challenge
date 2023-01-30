@@ -19,10 +19,10 @@ class PostDetail extends Component {
 
     return `
         <div class="post-image">
-            <img src="${image}" width="200px"/>
+            <img src="${image}" width="200px" alt="random image"/>
         </div>
         <strong>${title}</strong>
-        <span>${updateDate}</span>
+        <span class="date">${updateDate}</span>
         <span>${content}</span>
         <div class="btns-post-detail"></div>
      `;
@@ -39,7 +39,7 @@ class PostDetail extends Component {
         position: "beforeend",
         type: "button",
         className: "btn-post-edit",
-        text: "수정",
+        text: "수정 📝",
         handleClick: () => this.goToEditPage(postId),
       },
     });
@@ -50,7 +50,7 @@ class PostDetail extends Component {
         position: "beforeend",
         type: "button",
         className: "btn-post-delete",
-        text: "삭제",
+        text: "삭제 🗑",
         handleClick: () => this.deletePost(postId),
       },
     });

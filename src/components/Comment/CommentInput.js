@@ -22,7 +22,7 @@ class CommentInput extends Component {
         position: "beforeend",
         type: "submit",
         className: "btn-add-comment",
-        text: "게시",
+        text: "✏️",
       },
     });
   }

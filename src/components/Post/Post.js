@@ -4,14 +4,13 @@ import { navigate } from "../../router.js";
 
 class Post extends Component {
   template() {
-    const { postId, title, content } = this.props.post;
+    const { postId, image, title, content } = this.props.post;
 
     return `
-        <li data-id="${postId}" class="post-${postId}">
+        <li class="post post-${postId}">
+            <img alt="random image" src=${image}/>
             <div>
-                <span>${title}</span>
-            </div>
-            <div>
+                <strong>${title}</strong>
                 <span>${content}</span>
             </div>
         </li>

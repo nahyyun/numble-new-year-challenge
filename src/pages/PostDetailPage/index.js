@@ -16,7 +16,7 @@ class PostDetailPage extends Component {
     return `<main>
               <nav id="navbar-wrapper"></nav>
               <section class="post-detail-container"></section>
-              <section class="comments"></section>
+              <section class="comments-container"></section>
             </main>`;
   }
 
@@ -37,7 +37,7 @@ class PostDetailPage extends Component {
     });
 
     new CommentList({
-      target: $(".comments"),
+      target: $(".comments-container"),
       props: { postId: this.props.params, comments },
     });
   }
