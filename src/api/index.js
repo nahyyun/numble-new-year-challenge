@@ -1,5 +1,3 @@
-const BASE_URL = "//43.201.103.199";
-
 const configWithBody = (method, body) => ({
   method,
   headers: {
@@ -9,7 +7,7 @@ const configWithBody = (method, body) => ({
 });
 
 const GET = async (url) => {
-  const response = await fetch(`${BASE_URL}/${url}`, { method: "GET" });
+  const response = await fetch(`/api/${url}`, { method: "GET" });
   const data = await response.json();
 
   if (response.ok) {
@@ -20,10 +18,7 @@ const GET = async (url) => {
 };
 
 const POST = async (url, bodyData) => {
-  const response = await fetch(
-    `${BASE_URL}/${url}`,
-    configWithBody("POST", bodyData)
-  );
+  const response = await fetch(`/api/${url}`, configWithBody("POST", bodyData));
   const data = await response.json();
 
   if (response.ok) {
@@ -35,7 +30,7 @@ const POST = async (url, bodyData) => {
 
 const PATCH = async (url, bodyData) => {
   const response = await fetch(
-    `${BASE_URL}/${url}`,
+    `/api/${url}`,
     configWithBody("PATCH", bodyData)
   );
   const data = await response.json();
@@ -48,7 +43,7 @@ const PATCH = async (url, bodyData) => {
 };
 
 const DELETE = async (url) => {
-  const response = await fetch(`${BASE_URL}/${url}`, { method: "DELETE" });
+  const response = await fetch(`/api/${url}`, { method: "DELETE" });
   const data = await response.json();
 
   if (response.ok) {
