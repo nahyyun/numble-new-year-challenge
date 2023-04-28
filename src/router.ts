@@ -50,11 +50,13 @@ const findMatchRoute = (urlPath: string): [Route, RegExpMatchArray] | null => {
 };
 
 const getParams = (matchedPatternResult: RegExpMatchArray) => {
-  const [, params] = matchedPatternResult;
+  if (!matchedPatternResult) return null;
 
-  if (typeof params === "string") {
-    return params;
-  }
+  const params = matchedPatternResult.filter(
+    (_, idx) => idx !== 0 && matchedPatternResult[idx]
+  );
+
+  return params;
 };
 
 const render = (path: string) => {
@@ -67,7 +69,7 @@ const render = (path: string) => {
   }
 
   const [matchedRoute, matchedPatternResult] = findMatchRouteResult;
-  const params = getParams(matchedPatternResult) ?? null;
+  const params = getParams(matchedPatternResult);
 
   return new matchedRoute.view({
     target: $("#app"),

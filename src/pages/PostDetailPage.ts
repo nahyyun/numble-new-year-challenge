@@ -15,7 +15,7 @@ interface PostDetailPageState {
 }
 
 interface PostDetailPageProps {
-  params: number;
+  params: number[];
 }
 
 class PostDetailPage extends Component<
@@ -23,12 +23,10 @@ class PostDetailPage extends Component<
   PostDetailPageState
 > {
   init() {
-    console.log(this.props.params);
-
     this.state = {
       isLoading: false,
       post: {
-        postId: this.props.params,
+        postId: this.props.params[0],
         title: "",
         content: "",
         image: "",
@@ -62,7 +60,7 @@ class PostDetailPage extends Component<
 
     new CommentList({
       target: $(".comments-container"),
-      postId: this.props.params,
+      postId: post.postId,
       comments,
     });
   }
@@ -72,7 +70,7 @@ class PostDetailPage extends Component<
   }
 
   async getPostDetail() {
-    const postId = this.props.params;
+    const postId = this.state.post.postId;
 
     try {
       this.setState({ ...this.state, isLoading: true });
