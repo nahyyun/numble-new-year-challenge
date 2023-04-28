@@ -1,7 +1,15 @@
-import Component from "../../core/Component.js";
-import { $ } from "../../utils/dom.js";
+import Component from "../../core/Component";
+import { $ } from "../../utils/dom";
 
-class Button extends Component {
+interface ButtonProps {
+  position: "afterbegin" | "beforeend";
+  type: "button" | "submit";
+  className: string;
+  text: string;
+  handleClick?: () => void;
+}
+
+class Button extends Component<ButtonProps> {
   template() {
     const { type, className, text } = this.props;
 

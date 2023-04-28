@@ -1,10 +1,21 @@
-import Component from "../../core/Component.js";
-import Comment from "./Comment.js";
-import CommentInput from "../../components/Comment/CommentInput.js";
-import fetchAPI from "../../api/index.js";
-import { $ } from "../../utils/dom.js";
+import Component from "../../core/Component";
+import CommentInput from "./CommentInput";
+import Comment from "./Comment";
+import fetchAPI from "../../api/index";
+import { $ } from "../../utils/dom";
+import { Comment as CommentType } from "../../types";
 
-class CommentList extends Component {
+interface CommentListState {
+  postId: number;
+  comments: CommentType[];
+}
+
+interface CommentListProps {
+  postId: number;
+  comments: CommentType[];
+}
+
+class CommentList extends Component<CommentListProps, CommentListState> {
   init() {
     const { postId, comments } = this.props;
     this.state = { postId, comments };
@@ -22,20 +33,18 @@ class CommentList extends Component {
       (comment) =>
         new Comment({
           target: $(".comment-list"),
-          props: { comment, deleteComment: (id) => this.deleteComment(id) },
+          comment,
+          deleteComment: (id) => this.deleteComment(id),
         })
     );
 
     new CommentInput({
       target: this.$target,
-      props: {
-        postId: this.state.postId,
-        addComment: (formElement) => this.addComment(formElement),
-      },
+      addComment: (formElement) => this.addComment(formElement),
     });
   }
 
-  async addComment(commentValue) {
+  async addComment(commentValue: string) {
     try {
       const { code, data } = await fetchAPI.POST(
         `comment/${this.state.postId}`,
@@ -55,7 +64,7 @@ class CommentList extends Component {
     }
   }
 
-  async deleteComment(id) {
+  async deleteComment(id: number) {
     const { code } = await fetchAPI.DELETE(`comment/${id}`);
 
     if (code === 200) {

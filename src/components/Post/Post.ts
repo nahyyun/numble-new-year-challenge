@@ -1,8 +1,13 @@
-import Component from "../../core/Component.js";
-import { $ } from "../../utils/dom.js";
-import { navigate } from "../../router.js";
+import Component from "../../core/Component";
+import { $ } from "../../utils/dom";
+import { navigate } from "../../router";
+import { Post as PostType } from "../../types";
 
-class Post extends Component {
+interface PostProps {
+  post: PostType;
+}
+
+class Post extends Component<PostProps> {
   template() {
     const { postId, image, title, content } = this.props.post;
 

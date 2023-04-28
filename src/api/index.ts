@@ -1,4 +1,4 @@
-const configWithBody = (method, body) => ({
+const configWithBody = (method: string, body: any) => ({
   method,
   headers: {
     "Content-Type": "application/json",
@@ -6,7 +6,7 @@ const configWithBody = (method, body) => ({
   body: JSON.stringify(body),
 });
 
-const GET = async (url) => {
+const GET = async (url: string) => {
   const response = await fetch(`/api/${url}`, { method: "GET" });
   const data = await response.json();
 
@@ -17,7 +17,7 @@ const GET = async (url) => {
   throw data;
 };
 
-const POST = async (url, bodyData) => {
+const POST = async (url: string, bodyData: any) => {
   const response = await fetch(`/api/${url}`, configWithBody("POST", bodyData));
   const data = await response.json();
 
@@ -28,7 +28,7 @@ const POST = async (url, bodyData) => {
   throw data;
 };
 
-const PATCH = async (url, bodyData) => {
+const PATCH = async (url: string, bodyData: any) => {
   const response = await fetch(
     `/api/${url}`,
     configWithBody("PATCH", bodyData)
@@ -42,7 +42,7 @@ const PATCH = async (url, bodyData) => {
   throw data;
 };
 
-const DELETE = async (url) => {
+const DELETE = async (url: string) => {
   const response = await fetch(`/api/${url}`, { method: "DELETE" });
   const data = await response.json();
 

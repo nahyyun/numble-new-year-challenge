@@ -1,10 +1,23 @@
 const path = require("path");
+const Dotenv = require("dotenv-webpack");
 
 module.exports = {
-  mode: "production",
-  entry: "./src/app.js",
+  mode: "development",
+  entry: "./src/app.ts",
+  module: {
+    rules: [
+      {
+        test: /\.ts?$/,
+        use: "ts-loader",
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".ts", ".js"],
+  },
   output: {
-    path: __dirname + "/dist",
+    path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
   },
   devServer: {
@@ -20,4 +33,5 @@ module.exports = {
       },
     },
   },
+  plugins: [new Dotenv()],
 };

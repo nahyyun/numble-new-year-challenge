@@ -1,4 +1,4 @@
-export const getRouteRegexp = (path) => {
+export const getRouteRegexp = (path: string) => {
   return new RegExp(
     "^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(\\w+)") + "$"
   );

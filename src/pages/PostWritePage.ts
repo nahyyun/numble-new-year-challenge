@@ -1,7 +1,7 @@
-import Component from "../../core/Component.js";
-import Header from "../../components/Common/Header.js";
-import PostAddForm from "../../components/Post/PostAddForm.js";
-import { $ } from "../../utils/dom.js";
+import Component from "../core/Component";
+import Header from "../components/Common/Header";
+import PostAddForm from "../components/Post/PostAddForm";
+import { $ } from "../utils/dom";
 
 class PostWritePage extends Component {
   template() {
@@ -14,7 +14,7 @@ class PostWritePage extends Component {
   render() {
     this.$target.innerHTML = this.template();
 
-    new Header({ target: $("#navbar-wrapper"), props: { isMain: false } });
+    new Header({ target: $("#navbar-wrapper"), isMain: false });
 
     new PostAddForm({
       target: $(".post-add-form-container"),

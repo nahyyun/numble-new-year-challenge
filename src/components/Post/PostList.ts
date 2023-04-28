@@ -1,12 +1,19 @@
-import Component from "../../core/Component.js";
-import Post from "./Post.js";
-import Loading from "../Common/Loading.js";
-import Snackbar from "../Common/Snackbar.js";
-import fetchAPI from "../../api/index.js";
-import { $ } from "../../utils/dom.js";
-import { ERROR_MESSAGE } from "../../utils/message.js";
+import Component from "../../core/Component";
+import Post from "./Post";
+import Loading from "../Common/Loading";
+import Snackbar from "../Common/Snackbar";
+import fetchAPI from "../../api/index";
+import { $ } from "../../utils/dom";
+import { ERROR_MESSAGE } from "../../utils/message";
+import { Post as PostType } from "../../types";
 
-class PostList extends Component {
+interface PostListState {
+  isLoading: boolean;
+  posts: PostType[];
+  error: boolean;
+}
+
+class PostList extends Component<{}, PostListState> {
   init() {
     this.state = { isLoading: false, posts: [], error: false };
   }
@@ -14,7 +21,6 @@ class PostList extends Component {
   template() {
     return `<ul class="post-list"></ul>`;
   }
-
   render() {
     if (this.state.isLoading) {
       return new Loading({ target: this.$target });
@@ -23,14 +29,14 @@ class PostList extends Component {
     if (this.state.error) {
       return new Snackbar({
         target: $("#snackbar"),
-        props: { message: ERROR_MESSAGE["loadPosts"] },
+        message: ERROR_MESSAGE["loadPosts"],
       });
     }
 
     this.$target.innerHTML = this.template();
 
     this.state.posts.forEach(
-      (post) => new Post({ target: $(".post-list"), props: { post } })
+      (post) => new Post({ target: $(".post-list"), post })
     );
   }
 
@@ -40,7 +46,7 @@ class PostList extends Component {
 
   async getPostList() {
     try {
-      this.setState({ ...this.state, isLoading: true, error: false });
+      this.setState({ posts: [], isLoading: true, error: false });
 
       const { code, data } = await fetchAPI.GET("posts");
 
@@ -48,7 +54,7 @@ class PostList extends Component {
         this.setState({ ...this.state, posts: data.posts, isLoading: false });
       }
     } catch (error) {
-      this.setState({ ...this.state, isLoading: false, error: error.message });
+      this.setState({ ...this.state, isLoading: false, error: true });
     }
   }
 }

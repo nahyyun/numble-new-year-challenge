@@ -1,2 +1,28 @@
-apiKey.js
-node_modules
+# dependencies
+/node_modules
+
+# logs and backups
+/logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# build output
+/dist
+
+# dotenv environment variables file
+.env
+
+# IDE-specific files
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# misc
+Thumbs.db

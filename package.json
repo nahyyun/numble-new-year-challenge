@@ -1,11 +1,19 @@
 {
   "devDependencies": {
+    "dotenv-webpack": "^8.0.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
     "webpack": "^5.75.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1"
   },
   "scripts": {
-    "serve": "webpack serve",
-    "build": "webpack"
+    "build": "webpack --mode=production",
+    "start": "webpack-dev-server --open"
+  },
+  "dependencies": {
+    "http-proxy": "^1.18.1",
+    "http-proxy-middleware": "^2.0.6",
+    "ts-node": "^10.9.1"
   }
 }

@@ -1,4 +1,4 @@
-import { navigate } from "./router.js";
+import { navigate } from "./router";
 
 window.addEventListener("DOMContentLoaded", () => {
   navigate(location.pathname);

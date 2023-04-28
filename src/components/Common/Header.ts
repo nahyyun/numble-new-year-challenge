@@ -1,8 +1,12 @@
-import Component from "../../core/Component.js";
-import { $ } from "../../utils/dom.js";
-import { navigate } from "../../router.js";
+import Component from "../../core/Component";
+import { $ } from "../../utils/dom";
+import { navigate } from "../../router";
 
-class Header extends Component {
+interface HeaderProps {
+  isMain: boolean;
+}
+
+class Header extends Component<HeaderProps> {
   template() {
     return `${
       this.props.isMain

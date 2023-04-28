@@ -1,12 +1,18 @@
-import Component from "../../core/Component.js";
-import Header from "../../components/Common/Header.js";
-import PostEditForm from "../../components/Post/PostEditForm.js";
-import Loading from "../../components/Common/Loading.js";
-import fetchAPI from "../../api/index.js";
-import { navigate } from "../../router.js";
-import { $ } from "../../utils/dom.js";
+import Component from "../core/Component";
+import Header from "../components/Common/Header";
+import PostEditForm from "../components/Post/PostEditForm";
+import Loading from "../components/Common/Loading";
+import fetchAPI from "../api/index";
+import { navigate } from "../router";
+import { $ } from "../utils/dom";
+import { Post } from "../types";
 
-class PostEditPage extends Component {
+interface PostEditPageState {
+  post: Post;
+  isLoading: boolean;
+}
+
+class PostEditPage extends Component<{}, PostEditPageState> {
   init() {
     const post = history.state ?? {};
     this.state = { post, isLoading: false };
@@ -26,22 +32,22 @@ class PostEditPage extends Component {
 
     this.$target.innerHTML = this.template();
 
-    new Header({ target: $("#navbar-wrapper"), props: { isMain: false } });
+    new Header({ target: $("#navbar-wrapper"), isMain: false });
 
     new PostEditForm({
       target: $(".post-edit-form-container"),
-      props: { post: this.state.post },
+      post: this.state.post,
     });
   }
 
   mounted() {
     if (!this.state.post.postId) {
-      const postId = location.pathname.split("/").pop();
+      const postId = Number(location.pathname.split("/").pop());
       this.getPostDetail(postId);
     }
   }
 
-  async getPostDetail(postId) {
+  async getPostDetail(postId: number) {
     try {
       this.setState({ ...this.state, isLoading: true });
 
